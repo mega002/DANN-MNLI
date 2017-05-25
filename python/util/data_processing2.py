@@ -4,7 +4,7 @@ import random
 import json
 import collections
 import numpy as np
-import parameters as params
+import parameters2 as params
 
 FIXED_PARAMETERS = params.load_parameters()
 
@@ -12,6 +12,20 @@ LABEL_MAP = {
     "entailment": 0,
     "neutral": 1,
     "contradiction": 2
+}
+
+GENRE_MAP = {
+    "travel": 0,
+    "fiction": 1,
+    "slate": 2,
+    "telephone": 3,
+    "government": 4,
+    "snli": 5,
+    "facetoface": 6,
+    "oup": 7,
+    "letters": 8,
+    "nineeleven": 9,
+    "verbatim": 10
 }
 
 PADDING = "<PAD>"
@@ -30,6 +44,7 @@ def load_nli_data(path, snli=False):
             loaded_example["label"] = LABEL_MAP[loaded_example["gold_label"]]
             if snli:
                 loaded_example["genre"] = "snli"
+            loaded_example["domain"] = GENRE_MAP[loaded_example["genre"]]
             data.append(loaded_example)
         random.seed(1)
         random.shuffle(data)
@@ -50,6 +65,7 @@ def load_nli_data_genre(path, genre, snli=True):
             loaded_example["label"] = LABEL_MAP[loaded_example["gold_label"]]
             if snli:
                 loaded_example["genre"] = "snli"
+            loaded_example["domain"] = GENRE_MAP[loaded_example["genre"]]
             if loaded_example["genre"] == genre:
                 data.append(loaded_example)
         random.seed(1)
